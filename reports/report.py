@@ -20,7 +20,7 @@ prod_metrics = client.get_run(prod_version.run_id).data.metrics
 
 all_runs = mlflow.search_runs(search_all_experiments=True, 
                               order_by=["start_time DESC"], 
-                              filter_string="metrics.MAPE > 0",
+                              filter_string="metrics.f1_weighted > 0",
                               max_results=5)
 
 if all_runs.empty:
@@ -62,7 +62,7 @@ for metric in prod_metrics:
         delta = exp_metrics[metric] - prod_metrics[metric]
         report += f"- `{metric}`: Experiment = {exp_metrics[metric]:.4f}, Production = {prod_metrics[metric]:.4f}, Δ = {delta:+.4f}\n"
 
-with open("mlflow_report.md", "w") as f:
+with open("mlflow_report.md", "w", encoding="utf-8") as f:
     f.write(report)
 
 print("MLflow report comparing latest experiment with production model generated.")
