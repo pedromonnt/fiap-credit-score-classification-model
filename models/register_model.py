@@ -24,7 +24,7 @@ prod_metrics = client.get_run(prod_version.run_id).data.metrics
 
 all_runs = mlflow.search_runs(search_all_experiments=True, 
                               order_by=["start_time DESC"], 
-                              filter_string="metrics.MAPE > 0",
+                              filter_string="metrics.f1_weighted > 0",
                               max_results=5)
 
 if all_runs.empty:
